@@ -3,6 +3,6 @@ graph of emoji frequency
 
 from director stuysquad post
 
-because why not lol
+because why not lol (procrastinating on college apps.............. haha...)
 
-created using pyvis and pandas
+created using pyvis and 🐼
