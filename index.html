@@ -1,0 +1,116 @@
+<html>
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis.css" type="text/css" />
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/vis/4.16.1/vis-network.min.js"> </script>
+<center>
+<h1></h1>
+</center>
+
+<!-- <link rel="stylesheet" href="../node_modules/vis/dist/vis.min.css" type="text/css" />
+<script type="text/javascript" src="../node_modules/vis/dist/vis.js"> </script>-->
+
+<style type="text/css">
+
+        #mynetwork {
+            width: 100%;
+            height: 100%;
+            background-color: #111111;
+            border: 1px solid lightgray;
+            position: relative;
+            float: left;
+        }
+
+        
+
+        
+
+        
+</style>
+
+</head>
+
+<body>
+<div id = "mynetwork"></div>
+
+
+<script type="text/javascript">
+
+    // initialize global variables.
+    var edges;
+    var nodes;
+    var network; 
+    var container;
+    var options, data;
+
+    
+    // This method is responsible for drawing the graph, returns the drawn network
+    function drawGraph() {
+        var container = document.getElementById('mynetwork');
+        
+        
+
+        // parsing and collecting nodes and edges from the python
+        nodes = new vis.DataSet([{"font": {"color": "white"}, "id": "\ud83d\ude24", "label": "\ud83d\ude24", "mass": 1, "shape": "circle", "title": "\ud83d\ude24 is Frequently Used With:\u003cbr\u003e\ud83e\udd7a\u003cbr\u003e\ud83d\udc80", "value": 2}, {"font": {"color": "white"}, "id": "\ud83d\udc80", "label": "\ud83d\udc80", "mass": 1, "shape": "circle", "title": "\ud83d\udc80 is Frequently Used With:\u003cbr\u003e\ud83d\ude2d\u003cbr\u003e\ud83d\ude2a\u003cbr\u003e\ud83e\udd14\u003cbr\u003e\ud83d\ude20\u003cbr\u003e\ud83e\udd27\u003cbr\u003e\ud83d\ude0c\u003cbr\u003e\ud83e\udd7a\u003cbr\u003e\ud83d\ude00\u003cbr\u003e\ud83d\ude24\u003cbr\u003e\ud83e\uddfc", "value": 10}, {"font": {"color": "white"}, "id": "\ud83e\udd7a", "label": "\ud83e\udd7a", "mass": 1, "shape": "circle", "title": "\ud83e\udd7a is Frequently Used With:\u003cbr\u003e\ud83d\ude2d\u003cbr\u003e\ud83d\ude24\u003cbr\u003e\ud83e\udd21\u003cbr\u003e\ud83d\udc80", "value": 4}, {"font": {"color": "white"}, "id": "\ud83e\udd27", "label": "\ud83e\udd27", "mass": 1, "shape": "circle", "title": "\ud83e\udd27 is Frequently Used With:\u003cbr\u003e\ud83d\udc80", "value": 1}, {"font": {"color": "white"}, "id": "\ud83d\ude2d", "label": "\ud83d\ude2d", "mass": 3, "shape": "circle", "title": "\ud83d\ude2d is Frequently Used With:\u003cbr\u003e\ud83e\udd29\u003cbr\u003e\ud83d\ude0a\u003cbr\u003e\ud83d\ude0c\u003cbr\u003e\ud83e\udd7a\u003cbr\u003e\ud83d\ude44\u003cbr\u003e\ud83d\ude38\u003cbr\u003e\ud83d\udc94\u003cbr\u003e\ud83e\udd24\u003cbr\u003e\ud83d\udc79\u003cbr\u003e\ud83d\ude29\u003cbr\u003e\ud83d\udc40\u003cbr\u003e\ud83d\udc80\u003cbr\u003e\ud83d\ude0b\u003cbr\u003e\ud83d\ude3f\u003cbr\u003e\ud83d\ude2a\u003cbr\u003e\ud83d\ude11\u003cbr\u003e\ud83e\udd21\u003cbr\u003e\ud83e\udd75\u003cbr\u003e\ud83d\ude17\u003cbr\u003e\ud83e\uddfc", "value": 20}, {"font": {"color": "white"}, "id": "\ud83d\ude0c", "label": "\ud83d\ude0c", "mass": 2, "shape": "circle", "title": "\ud83d\ude0c is Frequently Used With:\u003cbr\u003e\ud83d\ude2d\u003cbr\u003e\ud83d\udc80\u003cbr\u003e\ud83d\ude29\u003cbr\u003e\ud83d\ude00\u003cbr\u003e\ud83e\udd73", "value": 5}, {"font": {"color": "white"}, "id": "\ud83e\udd14", "label": "\ud83e\udd14", "mass": 1, "shape": "circle", "title": "\ud83e\udd14 is Frequently Used With:\u003cbr\u003e\ud83d\ude20\u003cbr\u003e\ud83d\udc80", "value": 2}, {"font": {"color": "white"}, "id": "\ud83d\ude20", "label": "\ud83d\ude20", "mass": 1, "shape": "circle", "title": "\ud83d\ude20 is Frequently Used With:\u003cbr\u003e\ud83e\udd14\u003cbr\u003e\ud83d\udc80", "value": 2}, {"font": {"color": "white"}, "id": "\ud83d\ude2a", "label": "\ud83d\ude2a", "mass": 1, "shape": "circle", "title": "\ud83d\ude2a is Frequently Used With:\u003cbr\u003e\ud83d\ude2d\u003cbr\u003e\ud83d\udc80", "value": 2}, {"font": {"color": "white"}, "id": "\ud83e\uddfc", "label": "\ud83e\uddfc", "mass": 1, "shape": "circle", "title": "\ud83e\uddfc is Frequently Used With:\u003cbr\u003e\ud83d\ude2d\u003cbr\u003e\ud83d\udc80", "value": 2}, {"font": {"color": "white"}, "id": "\ud83d\ude00", "label": "\ud83d\ude00", "mass": 1, "shape": "circle", "title": "\ud83d\ude00 is Frequently Used With:\u003cbr\u003e\ud83d\ude0c\u003cbr\u003e\ud83e\udd70\u003cbr\u003e\ud83d\udc80", "value": 3}, {"font": {"color": "white"}, "id": "\ud83e\udd21", "label": "\ud83e\udd21", "mass": 1, "shape": "circle", "title": "\ud83e\udd21 is Frequently Used With:\u003cbr\u003e\ud83d\ude2d\u003cbr\u003e\ud83e\udd7a", "value": 2}, {"font": {"color": "white"}, "id": "\ud83e\udd28", "label": "\ud83e\udd28", "mass": 1, "shape": "circle", "title": "\ud83e\udd28 is Frequently Used With:\u003cbr\u003e\ud83e\udd24\u003cbr\u003e\ud83d\ude30", "value": 2}, {"font": {"color": "white"}, "id": "\ud83e\udd24", "label": "\ud83e\udd24", "mass": 1, "shape": "circle", "title": "\ud83e\udd24 is Frequently Used With:\u003cbr\u003e\ud83e\udd75\u003cbr\u003e\ud83d\ude2d\u003cbr\u003e\ud83e\udd28\u003cbr\u003e\ud83d\ude30", "value": 4}, {"font": {"color": "white"}, "id": "\ud83d\ude30", "label": "\ud83d\ude30", "mass": 1, "shape": "circle", "title": "\ud83d\ude30 is Frequently Used With:\u003cbr\u003e\ud83e\udd24\u003cbr\u003e\ud83e\udd28", "value": 2}, {"font": {"color": "white"}, "id": "\ud83d\ude29", "label": "\ud83d\ude29", "mass": 1, "shape": "circle", "title": "\ud83d\ude29 is Frequently Used With:\u003cbr\u003e\ud83d\ude2d\u003cbr\u003e\ud83d\udc94\u003cbr\u003e\ud83d\ude08\u003cbr\u003e\ud83d\ude0c\u003cbr\u003e\ud83e\udd73\u003cbr\u003e\ud83d\ude35", "value": 6}, {"font": {"color": "white"}, "id": "\ud83d\udc94", "label": "\ud83d\udc94", "mass": 2, "shape": "circle", "title": "\ud83d\udc94 is Frequently Used With:\u003cbr\u003e\ud83d\ude44\u003cbr\u003e\ud83d\ude2d\u003cbr\u003e\ud83d\ude29", "value": 3}, {"font": {"color": "white"}, "id": "\ud83d\ude38", "label": "\ud83d\ude38", "mass": 1, "shape": "circle", "title": "\ud83d\ude38 is Frequently Used With:\u003cbr\u003e\ud83d\ude2d\u003cbr\u003e\ud83d\ude3f", "value": 2}, {"font": {"color": "white"}, "id": "\ud83d\ude3f", "label": "\ud83d\ude3f", "mass": 1, "shape": "circle", "title": "\ud83d\ude3f is Frequently Used With:\u003cbr\u003e\ud83d\ude38\u003cbr\u003e\ud83d\ude2d", "value": 2}, {"font": {"color": "white"}, "id": "\ud83d\ude0b", "label": "\ud83d\ude0b", "mass": 2, "shape": "circle", "title": "\ud83d\ude0b is Frequently Used With:\u003cbr\u003e\ud83d\ude17\u003cbr\u003e\ud83d\ude2d", "value": 2}, {"font": {"color": "white"}, "id": "\ud83d\ude17", "label": "\ud83d\ude17", "mass": 1, "shape": "circle", "title": "\ud83d\ude17 is Frequently Used With:\u003cbr\u003e\ud83d\ude0b\u003cbr\u003e\ud83d\ude2d", "value": 2}, {"font": {"color": "white"}, "id": "\ud83d\udc40", "label": "\ud83d\udc40", "mass": 1, "shape": "circle", "title": "\ud83d\udc40 is Frequently Used With:\u003cbr\u003e\ud83d\ude2d\u003cbr\u003e\ud83d\ude0a", "value": 2}, {"font": {"color": "white"}, "id": "\ud83d\ude0a", "label": "\ud83d\ude0a", "mass": 1, "shape": "circle", "title": "\ud83d\ude0a is Frequently Used With:\u003cbr\u003e\ud83d\ude2d\u003cbr\u003e\ud83d\udc40", "value": 2}, {"font": {"color": "white"}, "id": "\ud83e\udd75", "label": "\ud83e\udd75", "mass": 1, "shape": "circle", "title": "\ud83e\udd75 is Frequently Used With:\u003cbr\u003e\ud83e\udd24\u003cbr\u003e\ud83d\ude2d", "value": 2}, {"font": {"color": "white"}, "id": "\ud83d\ude44", "label": "\ud83d\ude44", "mass": 1, "shape": "circle", "title": "\ud83d\ude44 is Frequently Used With:\u003cbr\u003e\ud83d\ude2d\u003cbr\u003e\ud83d\udc94", "value": 2}, {"font": {"color": "white"}, "id": "\ud83d\ude11", "label": "\ud83d\ude11", "mass": 1, "shape": "circle", "title": "\ud83d\ude11 is Frequently Used With:\u003cbr\u003e\ud83d\ude2d", "value": 1}, {"font": {"color": "white"}, "id": "\ud83d\udc79", "label": "\ud83d\udc79", "mass": 1, "shape": "circle", "title": "\ud83d\udc79 is Frequently Used With:\u003cbr\u003e\ud83e\udd29\u003cbr\u003e\ud83d\ude2d", "value": 2}, {"font": {"color": "white"}, "id": "\ud83e\udd29", "label": "\ud83e\udd29", "mass": 1, "shape": "circle", "title": "\ud83e\udd29 is Frequently Used With:\u003cbr\u003e\ud83d\udc79\u003cbr\u003e\ud83d\ude2d", "value": 2}, {"font": {"color": "white"}, "id": "\ud83d\ude08", "label": "\ud83d\ude08", "mass": 1, "shape": "circle", "title": "\ud83d\ude08 is Frequently Used With:\u003cbr\u003e\ud83d\ude29\u003cbr\u003e\ud83d\ude35", "value": 2}, {"font": {"color": "white"}, "id": "\ud83d\ude35", "label": "\ud83d\ude35", "mass": 1, "shape": "circle", "title": "\ud83d\ude35 is Frequently Used With:\u003cbr\u003e\ud83d\ude08\u003cbr\u003e\ud83d\ude29", "value": 2}, {"font": {"color": "white"}, "id": "\ud83e\udd73", "label": "\ud83e\udd73", "mass": 1, "shape": "circle", "title": "\ud83e\udd73 is Frequently Used With:\u003cbr\u003e\ud83d\ude0c\u003cbr\u003e\ud83d\ude29", "value": 2}, {"font": {"color": "white"}, "id": "\ud83d\udc4a", "label": "\ud83d\udc4a", "mass": 1, "shape": "circle", "title": "\ud83d\udc4a is Frequently Used With:\u003cbr\u003e\ud83e\uddce", "value": 1}, {"font": {"color": "white"}, "id": "\ud83e\uddce", "label": "\ud83e\uddce", "mass": 1, "shape": "circle", "title": "\ud83e\uddce is Frequently Used With:\u003cbr\u003e\ud83d\udc4a", "value": 1}, {"font": {"color": "white"}, "id": "\ud83d\ude2e", "label": "\ud83d\ude2e", "mass": 1, "shape": "circle", "title": "\ud83d\ude2e is Frequently Used With:\u003cbr\u003e\ud83e\udd2a", "value": 1}, {"font": {"color": "white"}, "id": "\ud83e\udd2a", "label": "\ud83e\udd2a", "mass": 1, "shape": "circle", "title": "\ud83e\udd2a is Frequently Used With:\u003cbr\u003e\ud83d\ude2e", "value": 1}, {"font": {"color": "white"}, "id": "\ud83e\udd70", "label": "\ud83e\udd70", "mass": 1, "shape": "circle", "title": "\ud83e\udd70 is Frequently Used With:\u003cbr\u003e\ud83d\ude00", "value": 1}, {"font": {"color": "white"}, "id": "\ud83d\ude0e", "label": "\ud83d\ude0e", "mass": 1, "shape": "circle", "title": "\ud83d\ude0e is Frequently Used With:\u003cbr\u003e\ud83d\ude22\u003cbr\u003e\ud83d\ude2b", "value": 2}, {"font": {"color": "white"}, "id": "\ud83d\ude22", "label": "\ud83d\ude22", "mass": 1, "shape": "circle", "title": "\ud83d\ude22 is Frequently Used With:\u003cbr\u003e\ud83d\ude2b\u003cbr\u003e\ud83d\ude0e", "value": 2}, {"font": {"color": "white"}, "id": "\ud83d\ude2b", "label": "\ud83d\ude2b", "mass": 1, "shape": "circle", "title": "\ud83d\ude2b is Frequently Used With:\u003cbr\u003e\ud83d\ude22\u003cbr\u003e\ud83d\ude0e", "value": 2}, {"font": {"color": "white"}, "id": "\ud83d\ude36", "label": "\ud83d\ude36", "mass": 1, "shape": "circle", "title": "\ud83d\ude36 is Frequently Used With:\u003cbr\u003e\ud83d\ude25\u003cbr\u003e\ud83d\ude42", "value": 2}, {"font": {"color": "white"}, "id": "\ud83d\ude25", "label": "\ud83d\ude25", "mass": 1, "shape": "circle", "title": "\ud83d\ude25 is Frequently Used With:\u003cbr\u003e\ud83d\ude42\u003cbr\u003e\ud83d\ude36", "value": 2}, {"font": {"color": "white"}, "id": "\ud83d\ude42", "label": "\ud83d\ude42", "mass": 1, "shape": "circle", "title": "\ud83d\ude42 is Frequently Used With:\u003cbr\u003e\ud83d\ude25\u003cbr\u003e\ud83d\ude36\u003cbr\u003e\ud83d\ude14", "value": 3}, {"font": {"color": "white"}, "id": "\ud83d\ude14", "label": "\ud83d\ude14", "mass": 1, "shape": "circle", "title": "\ud83d\ude14 is Frequently Used With:\u003cbr\u003e\ud83d\ude42\u003cbr\u003e\ud83d\ude31", "value": 2}, {"font": {"color": "white"}, "id": "\ud83d\ude3c", "label": "\ud83d\ude3c", "mass": 1, "shape": "circle", "title": "\ud83d\ude3c is Frequently Used With:\u003cbr\u003e\u2728", "value": 1}, {"font": {"color": "white"}, "id": "\u2728", "label": "\u2728", "mass": 1, "shape": "circle", "title": "\u2728 is Frequently Used With:\u003cbr\u003e\ud83d\ude3c", "value": 1}, {"font": {"color": "white"}, "id": "\ud83d\ude31", "label": "\ud83d\ude31", "mass": 1, "shape": "circle", "title": "\ud83d\ude31 is Frequently Used With:\u003cbr\u003e\ud83d\ude14", "value": 1}]);
+        edges = new vis.DataSet([{"from": "\ud83d\ude24", "title": 1, "to": "\ud83d\udc80", "value": 1}, {"from": "\ud83d\ude24", "title": 1, "to": "\ud83e\udd7a", "value": 1}, {"from": "\ud83d\udc80", "title": 1, "to": "\ud83e\udd7a", "value": 1}, {"from": "\ud83d\udc80", "title": 1, "to": "\ud83e\udd27", "value": 1}, {"from": "\ud83d\udc80", "title": 3, "to": "\ud83d\ude2d", "value": 3}, {"from": "\ud83d\udc80", "title": 2, "to": "\ud83d\ude0c", "value": 2}, {"from": "\ud83d\udc80", "title": 1, "to": "\ud83e\udd14", "value": 1}, {"from": "\ud83d\udc80", "title": 1, "to": "\ud83d\ude20", "value": 1}, {"from": "\ud83d\udc80", "title": 1, "to": "\ud83d\ude2a", "value": 1}, {"from": "\ud83d\udc80", "title": 1, "to": "\ud83e\uddfc", "value": 1}, {"from": "\ud83d\udc80", "title": 1, "to": "\ud83d\ude00", "value": 1}, {"from": "\ud83e\udd7a", "title": 1, "to": "\ud83d\ude2d", "value": 1}, {"from": "\ud83e\udd7a", "title": 1, "to": "\ud83e\udd21", "value": 1}, {"from": "\ud83e\udd28", "title": 1, "to": "\ud83e\udd24", "value": 1}, {"from": "\ud83e\udd28", "title": 1, "to": "\ud83d\ude30", "value": 1}, {"from": "\ud83d\ude2d", "title": 1, "to": "\ud83d\ude29", "value": 1}, {"from": "\ud83d\ude2d", "title": 2, "to": "\ud83d\udc94", "value": 2}, {"from": "\ud83d\ude2d", "title": 1, "to": "\ud83d\ude38", "value": 1}, {"from": "\ud83d\ude2d", "title": 1, "to": "\ud83d\ude3f", "value": 1}, {"from": "\ud83d\ude2d", "title": 1, "to": "\ud83d\ude0c", "value": 1}, {"from": "\ud83d\ude2d", "title": 1, "to": "\ud83e\udd21", "value": 1}, {"from": "\ud83d\ude2d", "title": 2, "to": "\ud83d\ude0b", "value": 2}, {"from": "\ud83d\ude2d", "title": 1, "to": "\ud83d\ude17", "value": 1}, {"from": "\ud83d\ude2d", "title": 1, "to": "\ud83d\udc40", "value": 1}, {"from": "\ud83d\ude2d", "title": 1, "to": "\ud83d\ude0a", "value": 1}, {"from": "\ud83d\ude2d", "title": 1, "to": "\ud83d\ude2a", "value": 1}, {"from": "\ud83d\ude2d", "title": 1, "to": "\ud83e\udd24", "value": 1}, {"from": "\ud83d\ude2d", "title": 1, "to": "\ud83e\udd75", "value": 1}, {"from": "\ud83d\ude2d", "title": 1, "to": "\ud83d\ude44", "value": 1}, {"from": "\ud83d\ude2d", "title": 1, "to": "\ud83d\ude11", "value": 1}, {"from": "\ud83d\ude2d", "title": 1, "to": "\ud83e\uddfc", "value": 1}, {"from": "\ud83d\ude2d", "title": 1, "to": "\ud83d\udc79", "value": 1}, {"from": "\ud83d\ude2d", "title": 1, "to": "\ud83e\udd29", "value": 1}, {"from": "\ud83d\ude29", "title": 1, "to": "\ud83d\udc94", "value": 1}, {"from": "\ud83d\ude29", "title": 1, "to": "\ud83d\ude08", "value": 1}, {"from": "\ud83d\ude29", "title": 1, "to": "\ud83d\ude35", "value": 1}, {"from": "\ud83d\ude29", "title": 1, "to": "\ud83e\udd73", "value": 1}, {"from": "\ud83d\ude29", "title": 1, "to": "\ud83d\ude0c", "value": 1}, {"from": "\ud83d\udc94", "title": 1, "to": "\ud83d\ude44", "value": 1}, {"from": "\ud83d\udc4a", "title": 1, "to": "\ud83e\uddce", "value": 1}, {"from": "\ud83d\ude38", "title": 1, "to": "\ud83d\ude3f", "value": 1}, {"from": "\ud83d\ude08", "title": 1, "to": "\ud83d\ude35", "value": 1}, {"from": "\ud83d\ude2e", "title": 1, "to": "\ud83e\udd2a", "value": 1}, {"from": "\ud83d\ude0c", "title": 1, "to": "\ud83e\udd73", "value": 1}, {"from": "\ud83d\ude0c", "title": 1, "to": "\ud83d\ude00", "value": 1}, {"from": "\ud83e\udd24", "title": 1, "to": "\ud83d\ude30", "value": 1}, {"from": "\ud83e\udd24", "title": 1, "to": "\ud83e\udd75", "value": 1}, {"from": "\ud83d\ude00", "title": 1, "to": "\ud83e\udd70", "value": 1}, {"from": "\ud83e\udd14", "title": 1, "to": "\ud83d\ude20", "value": 1}, {"from": "\ud83d\ude0b", "title": 1, "to": "\ud83d\ude17", "value": 1}, {"from": "\ud83d\ude0e", "title": 1, "to": "\ud83d\ude22", "value": 1}, {"from": "\ud83d\ude0e", "title": 1, "to": "\ud83d\ude2b", "value": 1}, {"from": "\ud83d\ude22", "title": 1, "to": "\ud83d\ude2b", "value": 1}, {"from": "\ud83d\udc40", "title": 1, "to": "\ud83d\ude0a", "value": 1}, {"from": "\ud83d\ude36", "title": 1, "to": "\ud83d\ude25", "value": 1}, {"from": "\ud83d\ude36", "title": 1, "to": "\ud83d\ude42", "value": 1}, {"from": "\ud83d\ude25", "title": 1, "to": "\ud83d\ude42", "value": 1}, {"from": "\ud83d\ude42", "title": 1, "to": "\ud83d\ude14", "value": 1}, {"from": "\ud83d\ude3c", "title": 1, "to": "\u2728", "value": 1}, {"from": "\ud83d\ude14", "title": 1, "to": "\ud83d\ude31", "value": 1}, {"from": "\ud83d\udc79", "title": 1, "to": "\ud83e\udd29", "value": 1}]);
+
+        // adding nodes and edges to the graph
+        data = {nodes: nodes, edges: edges};
+
+        var options = {
+    "configure": {
+        "enabled": false
+    },
+    "edges": {
+        "color": {
+            "inherit": true
+        },
+        "smooth": {
+            "enabled": false,
+            "type": "continuous"
+        }
+    },
+    "interaction": {
+        "dragNodes": true,
+        "hideEdgesOnDrag": false,
+        "hideNodesOnDrag": false
+    },
+    "physics": {
+        "barnesHut": {
+            "avoidOverlap": 0,
+            "centralGravity": 0.3,
+            "damping": 0.09,
+            "gravitationalConstant": -80000,
+            "springConstant": 0.001,
+            "springLength": 250
+        },
+        "enabled": true,
+        "stabilization": {
+            "enabled": true,
+            "fit": true,
+            "iterations": 1000,
+            "onlyDynamicEdges": false,
+            "updateInterval": 50
+        }
+    }
+};
+        
+        
+
+        
+
+        network = new vis.Network(container, data, options);
+	 
+        
+
+
+        
+
+        return network;
+
+    }
+
+    drawGraph();
+
+</script>
+</body>
+</html>
